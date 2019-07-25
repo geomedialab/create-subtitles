@@ -2,21 +2,6 @@
 Rem This file runs the commands required for setting up the subtitle creation pipeline on your local machine.
 Rem make sure that this .bat file is in the same top-level folder as the other files in this pipeline.
 
-Rem Verify what operating system
-goto :comment
-:again
-	echo Which operating system are you using?
-	echo Options: [P]C, [M]ac, [L]inux
-	set /p answer=Enter selection:
-	if /i "%answer:~,1%" EQU "P" goto :pc
-	if /i "%answer:~,1%" EQU "M" goto :mac
-	if /i "%answer:~,1%" EQU "L" goto :linux
-	echo Please type P, M or L as an answer...
-	goto :again
-
-Rem SETUP ENVIRONMENT
-
-:comment
 echo.
 echo Verifying installation...
 echo.
@@ -57,12 +42,14 @@ goto :run_python2
 
 :run_python
 
+Rem run program
 cd files
 echo Activating virtual environment entitled 'files'...
-echo.
 :run_python2
+echo.
 call "Scripts\activate.bat"
 echo Starting up program...
+echo.
 python main.py
-
-Rem dir > hello.txt
+call "Scripts\deactivate.bat"
+cd ..
