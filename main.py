@@ -125,7 +125,7 @@ print "\n"
 while True:
 	language = raw_input("Enter the language code of your video and transcript (e.g. en, fr, es, etc.):\n(You can refer to the second column in http://www.loc.gov/standards/iso639-2/php/code_list.php for the appropriate two-letter 'ISO 639-1' language code.)\n")
 	if language != '':
-		verifyLanguage = raw_input("You have entered '" + language + "' as the language code for your transcript and video files. Youtube will use this code for processing your files. Continue? (y/n) ")
+		verifyLanguage = raw_input("\nYou have entered '" + language + "' as the language code for your transcript and video files. Youtube will use this code for processing your files. Continue? (y/n) ")
 		if verifyLanguage.lower() == 'y':
 			break
 print "\n\n"
@@ -151,7 +151,7 @@ if answer == 'y':
 elif answer == 'n':
 	resumeUploads = False
 elif answer == '':
-	resumeUploads = True
+	resumeUploads = False
 	
 answer = raw_input("\n3/6	Will you be uploading text snippets for syncing with your video snippets? (y/n) ")
 answer = verify_y_n_none(answer)
@@ -528,27 +528,46 @@ if snipTranscript == True:
 			
 			with open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w') as thefile:
 			#thefile = open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w')
-				#ES: write the previous position of c in texts (a chunk of text prior to timestamp) to thefile
-				thefile.write("%s\n" % texts[c-1])
-				#time.sleep(.1)
-				texts.append("")
-				texts[c] = ""
-				#t = t.replace(" ", "")
-				#t = t
-				t = t.replace('[','').replace(']','').replace('\n','')
-				t = unicode(t, "UTF-8")
-				#split the timestamps at : (into 3)
-				t = t.split(":")
+				try:
+					#ES: write the previous position of c in texts (a chunk of text prior to timestamp) to thefile
+					thefile.write("%s\n" % texts[c-1])
+					#time.sleep(.1)
+					texts.append("")
+					texts[c] = ""
+					#t = t.replace(" ", "")
+					#t = t
+					t = t.replace('[','').replace(']','').replace('\n','')
+					t = unicode(t, "UTF-8")
+					#split the timestamps at : (into 3)
+					t = t.split(":")
+					
+					if len(t) == 2:
+						splits.append([t0,int(t[0])*60 + int(t[1])])
+						t0 = int(t[0])*60 + int(t[1])
+					elif len(t) == 3:
+						splits.append([t0,int(t[0])*3600 + int(t[1])*60 + float(t[2])])
+						#print int(t[0])*3600 + int(t[1])*60 + int(t[2])
+						t0 = int(t[0])*3600 + int(t[1])*60 + float(t[2])
+						t_list.append(t0)
+				except ValueError as e:
+					print e
+					print "\n One of your timestamps isn't formatted correctly. Consult README.md for guidelines on proper timestamp formatting."
 				
-				if len(t) == 2:
-					splits.append([t0,int(t[0])*60 + int(t[1])])
-					t0 = int(t[0])*60 + int(t[1])
-				elif len(t) == 3:
-					splits.append([t0,int(t[0])*3600 + int(t[1])*60 + float(t[2])])
-					#print int(t[0])*3600 + int(t[1])*60 + int(t[2])
-					t0 = int(t[0])*3600 + int(t[1])*60 + float(t[2])
-					t_list.append(t0)
-	print "The document named '" + fileName + ".txt' was cut into " + str(len(splits)) + " text snippets based on it containing " + str(len(splits)) + " timestamps formatted like such '[HH:MM:SS.00]\\n'."
+	print "\nVerifying if timestamps are in ascending order..."
+	
+	sp1 = 0
+	num = 0
+	for sp in splits:
+		if num > 0:
+			if sp[1] <= sp1[1]:
+				print "\nThere is a problem with one of your timestamps:"
+				print "Timestamp number #",str(num+2)," (equivalent to ",str(sp[1])," seconds) should be a larger number than the timestamp that comes before it (",str(sp1[1])," seconds), but it is smaller."
+				print "Please make sure your timestamps are in ascending order and that there are no mistakes (see README.md) and restart the program."
+				exit()
+		sp1 = sp
+		num+=1
+	
+	print "\nThe document named '" + fileName + ".txt' was cut into " + str(len(splits)) + " text snippets based on it containing " + str(len(splits)) + " timestamps formatted like such '[HH:MM:SS.00]'."
 else:
 	print "Please set the variable 'snipTranscript' to True so that the code can properly run."
 	exit()
@@ -602,7 +621,7 @@ def yes_or_no(question):
 #ES: UPLOADS THE VIDEOS
 if uploadVideos == True:
 	#ES: the following is called when videos are being uploaded (uploadVideos = True) to warn the user as to how many videos will be uploaded.
-	question = "There were " + str(len(splits)) + " timestamps detected in " + fileName + ". " + str(len(splits)) + " video snippets will therefore be uploaded to YouTube for processing.\nYouTube allows a maximum of 100 video uploads per 24h using the current API credentials. Continue?"
+	question = "\nThere were " + str(len(splits)) + " timestamps detected in " + fileName + ". " + str(len(splits)) + " video snippets will therefore be uploaded to YouTube for processing. YouTube allows a maximum of 100 video uploads per 24h using the current API credentials. Continue?"
 	print "\nIf all input was correct, the program will begin snipping and uploading content to Youtube for processing. This may take between 20 minutes and several hours, depending on the size of your video file (" + str(videoSize) + " Mb)."
 	yes_or_no(question)
 	print "\n1. Slicing into " + str(len(splits)) + " parts & uploading videos..."
@@ -700,7 +719,7 @@ if uploadTranscripts == True:
 	
 	#print splits,videoids
 	#uploads transcripts
-	print "\n2. Uploading transcripts..."
+	print "\nUploading transcripts..."
 	
 	for s in splits:
 		print c,s
@@ -736,21 +755,21 @@ else:
 
 #if wait == True:
 if downloadCaptions == True:
-	print "\n3. Downloading captions..."
+	print "\nDownloading captions..."
 
 	c = 1
 	waitLonger = True
 	for s in splits:
 		print c,s,captionsids[c-1]
 		sub_txt = ""
-		#while waitLonger == True:
-		#	try:
-		subtitle = service.captions().download(id=captionsids[c-1],tfmt='vtt').execute()
-		#waitLonger = False
-		#	except:
-		#		waitLonger = True
-		#		print "Waiting for transcripts " + str(c) + " " + captionsids[c-1] + " to be processed into captions. It is",strftime("%H:%M:%S", localtime()),". Script will resume in " + str(2) + " minutes..."
-		#		time.sleep(2)
+		while waitLonger == True:
+			try:
+				subtitle = service.captions().download(id=captionsids[c-1],tfmt='vtt').execute()
+				waitLonger = False
+			except:
+				waitLonger = True
+				print "Waiting for transcripts " + str(c) + " " + captionsids[c-1] + " to be processed into captions. It is",strftime("%H:%M:%S", localtime()),". Script will resume in " + str(2) + " minutes..."
+				time.sleep(120)
 		sub_txt += subtitle
 		
 		cc = ""
