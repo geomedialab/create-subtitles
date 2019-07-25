@@ -103,4 +103,4 @@ IF you would like to run this script using credentials from your own Google acco
 Credits
 =======
 
-This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a collaboration with the Centre for Oral History and Digital Storytelling (COHDS), Computational Linguistics at Concordia (CLaC), and the Geomatics and Cartographic Research Centre (GCRC) at Carleton University (https://github.com/GCRC). More information can be found at http://geomedialab.org/
+This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a CANARIE-funded collaboration with the Centre for Oral History and Digital Storytelling (COHDS), Computational Linguistics at Concordia (CLaC), and the Geomatics and Cartographic Research Centre (GCRC) at Carleton University (https://github.com/GCRC). More information can be found at http://geomedialab.org/
