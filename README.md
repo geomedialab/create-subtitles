@@ -5,7 +5,7 @@ This research tool is intended to help turn verbatim transcripts for video recor
 
 Youtube provides a *Creator Studio* for turning transcripts into subtitles, yet results tend to be unsatisfactory for longer videos. This tool uses Youtube API and some python code to solve this problem by taking a video file and an appropriately timestamped verbatim transcript file, snipping them into pieces, uploading them to Youtube for syncing, downloading the generated subtitle files and stitching them together into a final subtitle file.
 
-The tool was developed in the context of *_Atlascine 4.0_*, an online story mapping research tool developed by the Geomedia Lab at Concordia University in collaboration with the Geomatics and Cartographic Research Centre (GCRC) at Carleton University. More information on this project can be found by visiting http://geomedialab.org/
+The tool was developed in the context of *_Atlascine 4.0_*, an online story mapping research tool developed by the Geomedia Lab at Concordia University in collaboration with the Geomatics and Cartographic Research Centre (GCRC) at Carleton University. More information on this CANARIE-funded project can be found by visiting http://geomedialab.org/
 
 To begin
 ========
@@ -103,4 +103,4 @@ IF you would like to run this script using credentials from your own Google acco
 Credits
 =======
 
-This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a CANARIE-funded collaboration with the Centre for Oral History and Digital Storytelling (COHDS), Computational Linguistics at Concordia (CLaC), and the Geomatics and Cartographic Research Centre (GCRC) at Carleton University (https://github.com/GCRC). More information can be found at http://geomedialab.org/
+This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a collaboration with the Centre for Oral History and Digital Storytelling (COHDS), Computational Linguistics at Concordia (CLaC), and the Geomatics and Cartographic Research Centre (GCRC) at Carleton University (https://github.com/GCRC). More information can be found at http://geomedialab.org/
