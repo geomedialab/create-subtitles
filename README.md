@@ -5,6 +5,7 @@ This research tool is intended to help turn verbatim transcripts for video recor
 
 Youtube provides a *Creator Studio* for turning transcripts into subtitles, yet results tend to be unsatisfactory for longer videos. This tool uses Youtube API and some python code to solve this problem by taking a video file and an appropriately timestamped verbatim transcript file, snipping them into pieces, uploading them to Youtube for syncing, downloading the generated subtitle files and stitching them together into a final subtitle file.
 
+The tool was developed in the context of *_Atlascine 4.0_*, an online story mapping research tool developed by the Geomedia Lab at Concordia University in collaboration with the Geomatics and Cartographic Research Centre (GCRC) at Carleton University. More information on this project can be found by visiting http://geomedialab.org/
 
 To begin
 ========
@@ -30,7 +31,7 @@ Installing the tool
 ===================
 
 - PC: Double-click pc.bat (or run it in command line). The program will install the required files in a subfolder it will generate called 'files'.
-- Mac: a bash file is currently under development. If you are familiar with bash, you may install the virtual environment and activate it manually by copying the commands available in pc.bat
+- Mac: a bash file is currently under development. If you are familiar with bash, you may install the virtual environment and activate it manually by copying the commands found in *pc.bat*
 
 Setting up your video and transcript files
 ==========================================
@@ -40,13 +41,14 @@ Once you have succesfully installed the program:
 - Your transcript must be in *.txt* format (UTF-8 encoding is preferred).
 - Your transcript will require accurate timestamps (roughly 10-minute intervals between timestamps are recommended for optimal processing by Youtube).
 	- The format of these timestamps must be the following: [HH:MM:SS.00] (microseconds are not required). Timestamps must also be separated from surrounding text by a blank line. Example:
-	
-		E.B.:: C'est un choc. Mais en même temps je voyais la reconstruction physique. Physiquement c'est vraiment un beau pays le Rwanda. C'est là où je me suis souvenu...j'ai commencé en disant que les Canadiens ou les Européens disaient que le Rwanda était un beau pays, je ne voyais pas en quoi ce pays était beau. Là après avoir vu d'autres pays en Afrique, après avoir voyagé, c'est vrai que c'est un beau pays.
+```
+E.B.: C'est un choc. Mais en même temps je voyais la reconstruction physique. Physiquement c'est vraiment un beau pays le Rwanda. C'est là où je me suis souvenu...j'ai commencé en disant que les Canadiens ou les Européens disaient que le Rwanda était un beau pays, je ne voyais pas en quoi ce pays était beau. Là après avoir vu d'autres pays en Afrique, après avoir voyagé, c'est vrai que c'est un beau pays.
 
-		[02:26:07.00]
+[02:26:07.00]
 
-		J.B.G.:: Pour revenir sur la reconstruction physique je ne sais pas s'il y avait aussi une reconstruction psychologique?
-	
+J.B.G.: Pour revenir sur la reconstruction physique je ne sais pas s'il y avait aussi une reconstruction psychologique?
+```
+
 Running the tool
 ================
 
@@ -101,4 +103,4 @@ IF you would like to run this script using credentials from your own Google acco
 Credits
 =======
 
-This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a collaboration with the Centre for Oral History and Digital Storytelling (COHDS). More information can be found at http://geomedialab.org/
+This tool was created by Rodolphe Gonzalès (https://github.com/ateliercartographique) and elaborated by Emory Shaw (https://github.com/maphouse) of the Geomedia Lab at Concordia University in the context of the Living Archives project: a collaboration with the Centre for Oral History and Digital Storytelling (COHDS), Computational Linguistics at Concordia (CLaC), and the Geomatics and Cartographic Research Centre (GCRC) at Carleton University (https://github.com/GCRC). More information can be found at http://geomedialab.org/
