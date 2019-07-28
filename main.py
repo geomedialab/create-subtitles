@@ -112,7 +112,7 @@ print "\n"
 
 videoSize = os.stat(folderName + '/' + originalVideo).st_size/1000000
 
-answer = raw_input("You will temporarily require " + str(videoSize) + " Mb available space on your hard drive to run this program. Continue? (y/n) ")
+answer = raw_input("If this is your first time running this tool on the files you have indicated, you will temporarily require " + str(videoSize) + " Mb available space on your hard drive to run this program. Continue? (y/n) ")
 answer = verify_y_n(answer)
 
 if answer == "n":
@@ -131,7 +131,7 @@ while True:
 print "\n\n"
 
 print "This tool:\n(1) snips your transcript (.txt) into text snippets based on its timestamps,\n(2) snips the associated video accordingly into video snippets,\n(3) uploads these video snippets to Youtube as private videos only visible to your account,\n(4) uploads the text snippets to Youtube as transcript files for these video snippets,\n(5) allows Youtube to sync the video and text snippets\n(6) downloads the text snippets as subtitle files (.vtt),\n(7) stitches these subtitle files together into a single subtitle file for your video.\n\nYou may switch these processes 'on' or 'off' depending on which steps you would like to run. If this is your first time running the tool, simply leave the following answers blank. For more advanced users or users who have already used this tool, please select which processes you would like to run: \n\n"
-time.sleep(5)
+time.sleep(2)
 
 answer = raw_input("\n1/6	Will you be uploading video snippets to Youtube for syncing? (y/n) ")
 answer = verify_y_n_none(answer)
@@ -521,7 +521,6 @@ if snipTranscript == True:
 		if t != "" and t.replace('[','').replace(']','').replace(':','').replace('.','').replace('\n','').isdigit() and "[" in t:
 			#increase pos on texts by 1
 			c += 1
-			
 			#ES: printing deets
 			#print t.replace('[','').replace(']','').replace(':','').replace('.','').replace('\n','').isdigit()
 			#print "c: " + str(c)
@@ -540,7 +539,11 @@ if snipTranscript == True:
 					t = unicode(t, "UTF-8")
 					#split the timestamps at : (into 3)
 					t = t.split(":")
-					
+					if len(t) > 3 or len(t) < 3:
+							print "\nOne of your timestamps (",':'.join(t) ,") isn't formatted correctly. Consult README.md for guidelines on proper timestamp formatting."
+							print "\nexiting application..."
+							time.sleep(2)
+							exit()
 					if len(t) == 2:
 						splits.append([t0,int(t[0])*60 + int(t[1])])
 						t0 = int(t[0])*60 + int(t[1])
@@ -557,6 +560,8 @@ if snipTranscript == True:
 	
 	sp1 = 0
 	num = 0
+	print str(splits)
+	print str(t_list)
 	for sp in splits:
 		if num > 0:
 			if sp[1] <= sp1[1]:
@@ -762,14 +767,14 @@ if downloadCaptions == True:
 	for s in splits:
 		print c,s,captionsids[c-1]
 		sub_txt = ""
-		while waitLonger == True:
-			try:
-				subtitle = service.captions().download(id=captionsids[c-1],tfmt='vtt').execute()
-				waitLonger = False
-			except:
-				waitLonger = True
-				print "Waiting for transcripts " + str(c) + " " + captionsids[c-1] + " to be processed into captions. It is",strftime("%H:%M:%S", localtime()),". Script will resume in " + str(2) + " minutes..."
-				time.sleep(120)
+	#	while waitLonger == True:
+	#		try:
+		subtitle = service.captions().download(id=captionsids[c-1],tfmt='vtt').execute()
+	#			waitLonger = False
+	#		except:
+	#			waitLonger = True
+	#			print "Waiting for transcripts " + str(c) + " " + captionsids[c-1] + " to be processed into captions. It is",strftime("%H:%M:%S", localtime()),". Script will resume in " + str(2) + " minutes..."
+	#			time.sleep(120)
 		sub_txt += subtitle
 		
 		cc = ""
