@@ -748,9 +748,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 			try:
 				os.mkdir(folderName + "/output")
 			except Exception as e:
-				print e
-				print "Output folder already exists. \nOverwriting output folder and files..."
-				time.sleep(1)
+				print "Output folder already exists. \nOverwriting..."
 			
 			thefile = open(folderName + "/output/" + fileName + "_" + language + ".vtt", 'w')
 			thefile.write(sub)
