@@ -24,13 +24,13 @@ You will require:
 	- To install Python 2.7 on your computer...
 		- PC:	Python 2.7.12: https://www.python.org/downloads/release/python-2712/ (When installing, make sure all boxes are checked in the install dialog.)
 		- Mac:	Python 2.7.16: https://www.python.org/downloads/release/python-2716/ (Once installed, double-click the "Install Certificates.command" file in the installed python 2.7 app folder.)
-	- You should make sure that the command 'python' is indeed python 2.7. To verify this, open command line (PC) or terminal (Mac) and enter 'python --version'. This should should you the version of python that is running. If not, then make sure you have properly installed python 2.7.
+	- You should make sure that the command 'python' is indeed python 2.7. To verify this, open command line (PC) or terminal (Mac) and enter 'python --version'. This should show you the version of python that is running. If not, then make sure you have properly installed python 2.7.
 		- if you have a different python 2.7 command (ex.: 'py -2', 'python2', etc.), then you could alternatively *replace all* instances of 'python' in the file *pc.bat* with your appropraite python 2.7 command...
 
 Installing the tool
 ===================
 
-- PC: Double-click pc.bat (or run it in command line). The program will install the required files in a subfolder it will generate called 'files'.
+- PC: Double-click *pc.bat* (or run it in command line). The program will install the required files in a subfolder it will generate called 'files'.
 - Mac: a bash file is currently under development. If you are familiar with bash, you may install the virtual environment and activate it manually by copying the commands found in *pc.bat*
 
 Setting up your video and transcript files
@@ -52,10 +52,11 @@ J.B.G.: Pour revenir sur la reconstruction physique je ne sais pas s'il y avait 
 Running the tool
 ================
 
+- PC: Double-click *pc.bat* (or run it in command line).
 - The program will ask you to specify the *folder containing your media files*, the *name of your transcript file*, and the *name of your video file*. The program will then proceed to ask you some questions, allowing you to control specific parameters if need be. You may leave these questions blank if you want to proceed with the program's default parameters.
 	- (Controlling which processes are to be run can be useful if the program terminated inadvertantly - due to a loss of internet connection, for example - and you need to start from where you left off. This can be especially useful when your video file is very large, meaning you can avoid having to upload the whole file again.)
 - Once parameters are set, if this is your first time using the tool, your browser will open automatically for you to authenticate the tool to access your Youtube (Google) account. You will be prompted to sign into your Google account and click to authenicate (you may need to click 'Advanced' first if the page tells you the app isn't verified by Google...). A page will appear stating "The authentication flow has completed". You may then exit your browser.
-- Once the tool has finished running, your final *.vtt*, *.srt* and *.txt* files will be available in your media folder within a subfolder called */output*. You can then use the *.srt* or *.vtt* files as subtitles in any media player.
+- Once the tool has finished running, your final *.vtt*, *.srt* and *.txt* files will be available in your media folder within a subfolder called */output*. You can then use the *.srt* or *.vtt* files as subtitles for your video in any media player.
 	- If there are any major syncing errors in your subtitle files due to very poor audio quality in your video, you may go to Youtube and manually make adjustments the snippet subtitles directly from within Youtube's interface.
 
 	
