@@ -75,61 +75,6 @@ print "You may terminate the application at any point by pressing Ctrl+C (Cmd+C 
 time.sleep(1)
 print "\n"
 
-folderName = raw_input("Enter the name of the folder containing your transcript and video files\n(this folder must be located inside the 'files' folder): ")
-try:
-	verifyExistence = os.stat(folderName).st_size
-except Exception as e:
-	print e
-	print "The folder named '" + folderName + "' does not exist in the current directory. Please see README.md for instructions."
-	print "exiting application..."
-	time.sleep(2)
-	exit()
-print "\n"
-
-fileName = raw_input("Enter the file name of your transcript (excluding the \".txt\" extention): ")
-
-try:
-	verifyExistence = os.stat(folderName + '/' + fileName + '.txt').st_size
-except Exception as e:
-	print e
-	print "The file named '" + fileName + ".txt' does not exist in the folder '" + folderName + "'. Please see README.md for instructions."
-	print "exiting application..."
-	time.sleep(2)
-	exit()
-
-print "\n"
-originalVideo = raw_input("Enter the file name of your video (this time including the file's extention): ")
-
-try:
-	verifyExistence = os.stat(folderName + '/' + originalVideo).st_size
-except Exception as e:
-	print e
-	print "The file named '" + originalVideo + "' does not exist in the folder '" + folderName + "'. Please see README.md for instructions."
-	print "exiting application..."
-	time.sleep(2)
-	exit()
-print "\n"
-
-videoSize = os.stat(folderName + '/' + originalVideo).st_size/1000000
-
-answer = raw_input("If this is your first time running this tool on the files you have indicated, you will temporarily require " + str(videoSize) + " Mb available space on your hard drive to run this program. Continue? (y/n) ")
-answer = verify_y_n(answer)
-
-if answer == "n":
-	print "Please make sure you have the available space on your hard drive, and then restart the program."
-	print "exiting application..."
-	time.sleep(2)
-	exit()
-print "\n"
-
-while True:
-	language = raw_input("Enter the language code of your video and transcript (e.g. en, fr, es, etc.):\n(You can refer to the second column in http://www.loc.gov/standards/iso639-2/php/code_list.php for the appropriate two-letter 'ISO 639-1' language code.)\n")
-	if language != '':
-		verifyLanguage = raw_input("\nYou have entered '" + language + "' as the language code for your transcript and video files. Youtube will use this code for processing your files. Continue? (y/n) ")
-		if verifyLanguage.lower() == 'y':
-			break
-print "\n\n"
-
 print "This tool:\n(1) snips your transcript (.txt) into text snippets based on its timestamps,\n(2) snips the associated video accordingly into video snippets,\n(3) uploads these video snippets to Youtube as private videos only visible to your account,\n(4) uploads the text snippets to Youtube as transcript files for these video snippets,\n(5) allows Youtube to sync the video and text snippets\n(6) downloads the text snippets as subtitle files (.vtt),\n(7) stitches these subtitle files together into a single subtitle file for your video.\n\nYou may switch these processes 'on' or 'off' depending on which steps you would like to run. If this is your first time running the tool, simply leave the following answers blank. For more advanced users or users who have already used this tool, please select which processes you would like to run: \n\n"
 time.sleep(2)
 
@@ -235,11 +180,77 @@ if combineSubtitles == True:
 	elif answer == '':
 		placeBasedTimestamping = False
 
-	print "\n6.3	If your transcript has speaker names (e.g. the interviewer or interviewee's names) that precede their discourse (e.g. \"Emmanuel: Hi, I'd like to ask you a few questions...\"), please input them. If this does not apply to your transcript, simply leave the following two answers blank by pressing the 'Enter' key."
-	time.sleep(1)
-	interviewer = raw_input("\n6.3.1	Please input your interviewer's name as it appears in the transcript: ")
-	interviewee = raw_input("\n6.3.2	Please input your interviewee's name as it appears in the transcript: ")
+print "\n"
+folderName = raw_input("Enter the name of the folder containing your transcript and/or video and/or subtitle files\n(this folder must be located inside the 'files' folder): ")
+try:
+	verifyExistence = os.stat(folderName).st_size
+except Exception as e:
+	print e
+	print "The folder named '" + folderName + "' does not exist in the current directory. Please see README.md for instructions."
+	print "exiting application..."
+	time.sleep(2)
+	exit()
+print "\n"
+
+if uploadTranscripts == True or resumeUploads == True or downloadCaptions == True or deleteVideos == True:
+	combine_only = False
+	fileName = raw_input("Enter the file name of your transcript (excluding the \".txt\" extention): ")
+
+	try:
+		verifyExistence = os.stat(folderName + '/' + fileName + '.txt').st_size
+	except Exception as e:
+		print e
+		print "The file named '" + fileName + ".txt' does not exist in the folder '" + folderName + "'. Please see README.md for instructions."
+		print "exiting application..."
+		time.sleep(2)
+		exit()
+
 	print "\n"
+	originalVideo = raw_input("Enter the file name of your video (this time including the file's extention): ")
+
+	try:
+		verifyExistence = os.stat(folderName + '/' + originalVideo).st_size
+	except Exception as e:
+		print e
+		print "The file named '" + originalVideo + "' does not exist in the folder '" + folderName + "'. Please see README.md for instructions."
+		print "exiting application..."
+		time.sleep(2)
+		exit()
+	print "\n"
+
+	videoSize = os.stat(folderName + '/' + originalVideo).st_size/1000000
+
+	answer = raw_input("If this is your first time running this tool on the files you have indicated, you will temporarily require " + str(videoSize) + " Mb available space on your hard drive to run this program. Continue? (y/n) ")
+	answer = verify_y_n(answer)
+
+	if answer == "n":
+		print "Please make sure you have the available space on your hard drive, and then restart the program."
+		print "exiting application..."
+		time.sleep(2)
+		exit()
+	print "\n"
+elif combineSubtitles == True:
+	#in this case, the user has chosen to only combine subtitles. the switch combine_only allows some different functionality down the road
+	combine_only = True
+	fileName = raw_input("In order to accurately combine subtitle files, you will need to create a list of timestamps demarcating the length of each video to which your subtitle files are associated. These values will be used as offsets for combining subtitle files.\nEach timestamp should be written as follows [HH:MM:SS.00], followed by a newline.\n\nPlease enter the file name of your timestamp list (excluding the \".txt\" extention): ")
+else:
+	print "You have not chosen any options for running this application. Exiting..."
+	exit()
+
+
+while True:
+	language = raw_input("Enter the language code of your video and transcript or the intended language code of your subtitles (e.g. en, fr, es, etc.):\n(You can refer to the second column in http://www.loc.gov/standards/iso639-2/php/code_list.php for the appropriate two-letter 'ISO 639-1' language code.)\n")
+	if language != '':
+		verifyLanguage = raw_input("\nYou have entered '" + language + "' as the language code for your transcript and video files. Youtube will use this code for processing your files. Continue? (y/n) ")
+		if verifyLanguage.lower() == 'y':
+			break
+
+print "\n\n"
+print "\n6.3	If your transcript has speaker names (e.g. the interviewer or interviewee's names) that precede their discourse (e.g. \"Emmanuel: Hi, I'd like to ask you a few questions...\"), please input them. If this does not apply to your transcript, simply leave the following two answers blank by pressing the 'Enter' key."
+time.sleep(1)
+interviewer = raw_input("\n6.3.1	Please input your interviewer's name as it appears in the transcript: ")
+interviewee = raw_input("\n6.3.2	Please input your interviewee's name as it appears in the transcript: ")
+print "\n"
 
 #____________#
 
@@ -481,12 +492,23 @@ def s_to_hms(seconds):
 	return str(int(h)) + ":" + str(int(m)) + ":" + str(int(sec)) 
 
 #ES: open anita/Anita.txt as myfile
-with open(folderName + "/" + fileName + ".txt", 'r') as myfile:
-	text = myfile.read().replace('\n', '')
-#print "ES: replace \\n with ''"
+try:
+	with open(folderName + "/" + fileName + ".txt", 'r') as myfile:
+		text = myfile.read().replace('\n', '')
+	#print "ES: replace \\n with ''"
+	with open(folderName + "/" + fileName + ".txt") as f:
+		text = f.readlines()
+except IOError as e:
+	print "No text file found because you are not running the entire pipeline. Creating dummy file 'delete me.txt' to finish pipeline."
+	foo = open(folderName + "/" + "delete me.txt","w+")
+	foo.close()
+	with open(folderName + "/" + "delete me.txt", 'r') as myfile:
+		text = myfile.read().replace('\n', '')
+	with open(folderName + "/" + "delete me.txt") as f:
+		text = f.readlines()
+	pass
 
-with open(folderName + "/" + fileName + ".txt") as f:
-	text = f.readlines()
+
 #print "ES: text is the following" + str(text)
 
 #ES: strip whitespace
@@ -545,13 +567,30 @@ if snipTranscript == True:
 							time.sleep(2)
 							exit()
 					if len(t) == 2:
-						splits.append([t0,int(t[0])*60 + int(t[1])])
-						t0 = int(t[0])*60 + int(t[1])
+						if combine_only == True:
+							t1 = int(t[0])*60 + int(t[1])
+							splits.append([t0,t0+t1])
+							t_list.append(t1)
+							t0 = t0 + t1							
+						else:
+							t1 = int(t[0])*60 + int(t[1])
+							splits.append([t0,t1])
+							t_list.append(t1)
+							t0 = t1
 					elif len(t) == 3:
-						splits.append([t0,int(t[0])*3600 + int(t[1])*60 + float(t[2])])
-						#print int(t[0])*3600 + int(t[1])*60 + int(t[2])
-						t0 = int(t[0])*3600 + int(t[1])*60 + float(t[2])
-						t_list.append(t0)
+						#if we are only combining subtitle files, and we are using a .txt file with a list of video lengths, then we need to make this into a list of cumulative times so that the rest of the pipeline can run
+						if combine_only == True:
+							t1 = int(t[0])*3600 + int(t[1])*60 + float(t[2])
+							splits.append([t0,t0+t1])
+							#print int(t[0])*3600 + int(t[1])*60 + int(t[2])
+							t_list.append(t1)
+							t0 = t0 + t1
+						else:
+							t1 = int(t[0])*3600 + int(t[1])*60 + float(t[2])
+							splits.append([t0,t1])
+							#print int(t[0])*3600 + int(t[1])*60 + int(t[2])
+							t_list.append(t1)							
+							t0 = t1
 				except ValueError as e:
 					print e
 					print "\n One of your timestamps isn't formatted correctly. Consult README.md for guidelines on proper timestamp formatting."
@@ -560,8 +599,8 @@ if snipTranscript == True:
 	
 	sp1 = 0
 	num = 0
-	print str(splits)
-	print str(t_list)
+	#print str(splits)
+	#print str(t_list)
 	for sp in splits:
 		if num > 0:
 			if sp[1] <= sp1[1]:

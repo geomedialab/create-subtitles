@@ -42,8 +42,15 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 			time = time.split(" --> ")
 			#print time
 			#print "--------"
-			t_0 = time[0].split(":")
-			t_1 = time[1].split(":")
+			try:
+				t_0 = time[0].split(":")
+				t_1 = time[1].split(":")
+			except IndexError as e:
+				print e
+				print "var 'time' in function 'hms_to_s' not valid"
+				print t_0
+				print t_1
+				exit()
 					
 			t0 = float(int(t_0[0])*3600) + int(float(t_0[1])*60) + int(float(t_0[2]))
 			t1 = float(int(t_1[0])*3600) + int(float(t_1[1])*60) + int(float(t_1[2]))
@@ -383,7 +390,6 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 						#ES: if timestamp
 						#ES: change this conditional slightly if t is in table_sentenses instead of text3
 						if t != "" and t[0].isdigit() and t[1] is ':':
-							#print "1. t : ", t
 							#ES: if timestamp is in between first and last timestamp in snippet
 							"""
 							print "t", t#timestamp being processed
@@ -394,8 +400,22 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 							#ES: when last is at the beginning of a new snippet loop, it is naturally larger than the present timestamp (since it represents the last timestamp from the prev snippet), triggering the following code
 							if hms_to_s(t)[0] < last[0]:
 								#ES: in RG's code, offset is equal to last (last is the last timestamp of the prev snippet). However, since these last timestamps are erroneous and go beyond the actual video length due to the resampling of subtitles by RG, i am using the raw Youtube final (un-resampled) timestamps as offsets.
-								offset = [t_list[t_list_pos],t_list[t_list_pos]]
-								t_list_pos += 1
+								try:
+									offset = [t_list[t_list_pos],t_list[t_list_pos]]
+									#print "offsets used: " + str(offset)
+									t_list_pos += 1
+								except IndexError as e:
+									print e
+									print "\nvar 't_list' doesn't have any timestamps in it because you are not running the whole pipeline. Program will proceed by using the last timestamp of the previous .vtt file as offset."
+									offset = last
+									pass
+									"""
+									print "last: ",last
+									print "offset: ",offset
+									print "t : "+ str(t)
+									print "t_list : "+ str(t_list)
+									print "t_list_pos : "+ str(t_list_pos)
+									"""
 								#offset = [last_t22[z-1][0],last_t22[z-1][1]]
 								#ES: OFFSET is the variable containing the cumulative timestamps
 								#print 1,offset[1]
@@ -761,6 +781,10 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 		
 		thefile = open(folderName + "/output/" + fileName + fil[0] + "_" + language + "_readable" + ".txt", 'w')
 		thefile.write(sub_txt_debug)
+		try:
+			os.remove(folderName + "/" + "delete me.txt")
+		except:
+			pass
 		print "Compiled subtitle files are now available in '" + folderName + "/output' folder."
 	return sub_srt
 	"""
