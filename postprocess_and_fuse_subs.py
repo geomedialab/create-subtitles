@@ -32,7 +32,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 		#print sub_files
 		
 		#ES: list of NEW subtitles file elements
-		new_sub = ["WEBVTT\nKind: captions\nLanguage: fr-CA"]
+		new_sub = ["WEBVTT\nKind: captions\nLanguage: "+str(language)]
 		c = 0
 		
 		t_list_pos = 0
@@ -91,8 +91,6 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 		#ES: FOR EACH SNIPPET IN LIST OF .VTT SNIPPETS
 		for s in sub_files:
 			#print ""
-			#print s
-			
 			#ES: GO
 			if (pass2 == False and s != folderName + "/" + fileName + ".vtt") or (pass2 == True and "pass" in s):
 				print ""
@@ -201,7 +199,6 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 					lastChar = row[len(row)-2][len(row[len(row)-1])-1]
 				if lastChar != "." or lastChar != "," or lastChar != "?" or lastChar != "!":
 					row[len(row)-1] += "."
-				
 				#ES: identifies final timestamp and appends to list of snippet sentences.
 				table_sentenses.append(row)
 				
@@ -326,7 +323,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 					
 					#FUNCTION reformat-text2-as-vtt-list/text3
 					
-					text3 = ['WEBVTT','Kind: captions','Language: fr-CA','']
+					text3 = ['WEBVTT','Kind: captions','Language: '+str(language),'']
 					for t2 in text2:
 						#print t2
 						if isinstance(t2[0], int):
@@ -369,7 +366,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 					"""
 				#ES: code added as an option to avoid using the resampling method and simply use native Youtube sub style
 				else:
-					text3 = ['WEBVTT','Kind: captions','Language: fr-CA','']
+					text3 = ['WEBVTT','Kind: captions','Language: '+str(language),'']
 					for t in table_sentenses:
 						for el in t:
 							if isinstance(el, list) == True:
@@ -571,7 +568,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 			
 			new_sub.append(ee)
 			sub_text.append(ee)
-			new_sub2 = ["WEBVTT\nKind: captions\nLanguage: fr-CA"]
+			new_sub2 = ["WEBVTT\nKind: captions\nLanguage: "+str(language)]
 			c = 0
 			
 			#ES: 2nd PROCESS... cleans the resampled subs..
@@ -610,7 +607,7 @@ def compileSubs(folderName,fileName,files,t_list,interviewer,interviewee,pass2,l
 			#for i in new_sub2:
 			#	print i
 
-			new_sub2 = ["WEBVTT\nKind: captions\nLanguage: fr-CA"]
+			new_sub2 = ["WEBVTT\nKind: captions\nLanguage: "+str(language)]
 			for i in range(len(sub_times)):
 				new_sub2.append(sub_times[i])
 				if not sub_text[i].isspace():
