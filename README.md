@@ -16,7 +16,7 @@ Requirements
 ===================
 
 You will require:
-- A PC computer (script for Mac is under development, though it can still be run if the virtual environment required to run the code is installed and activated manually)
+- A PC or Mac computer (PC preferred)
 - at least 100 Mb of space on you hard drive
 - an internet connection
 - A Youtube Channel (created using a Google user account)
@@ -31,7 +31,7 @@ Installing the tool
 ===================
 
 - PC: Double-click **pc.bat** (or run it in command line). The program will install the required files in a subfolder it will generate called **/files**.
-- Mac: a bash file is currently under development. If you are familiar with bash, you may install the virtual environment and activate it manually by copying the commands found in **pc.bat**
+- Mac: There is currently no bash file to run this tool in the terminal. If you are familiar with the terminal, you may install the virtual environment and activate it manually by emulating the commands found in **pc.bat** within the terminal. Contact the Geomedia Lab if you need assistance.
 
 Setting up your video and transcript files
 ==========================================
@@ -62,18 +62,19 @@ Running the tool
 
 	
 
-To view and/or edit your subtitles directly on Youtube:
+Working with Youtube directly:
 -------------------------------------------------------
 
-Youtube provides a useful subtitle editing platform that may come in handy if the audio quality in your video is very poor and leads to subtitle syncing errors. If this is happening, then you may want to edit your subtitles manually on Youtube.
+Youtube provides a useful subtitle editing platform that may come in handy if the audio quality in your video is very poor and leads to subtitle syncing errors. If this is happening, then you may want to edit your subtitles manually on Youtube. Alternatively, if your media file is shorter than 10 minutes long, then you may also choose to forego using this tool entirely and try uploading and synchronizing your transcript using Youtube's interface.
 
-- To access your private Youtube videos:
-	- From your Youtube channel, click CUSTOMIZE CHANNEL > Videos (tab)
-- To access/edit/delete any and all Youtube videos:
-	- From your Youtube channel, click CREATOR STUDIO > Select videos to be deleted > Actions (dropdown) > Delete
-Using Youtube's *Creator Studio Classis* is recommended over their newer version...
+- To edit a subtitle file directly from Youtube's interface:
+	- When logged into your Youtube channel, click **Your Videos** on the left (this is where you will find any videos you may have uploaded or wish to upload with the tool). If you wish, you may upload videos and transcript files directly from within this page.
+	- To edit any previously uploaded transcripts:
+		- Hover over a video and click **Details**
+		- In the next page, click **Subtitles** on the left
+		- Then, click **EDIT** for the transcript file you wish to edit.
 
-Once having done this, you will need to run the program again, this time disabling any upload parameters (1-3), and enabling the *download subtitle* and *combine subtitle* parameters (4,6).
+If you are doing this to correct subtitles from videos that you have already snipped and uploaded using this command line tool, you will need to run the command line tool again: this time disabling any upload parameters and enabling only the *download subtitle* and *combine subtitle* parameters (5,7).
 
 A note on Youtube credentials
 -----------------------------
