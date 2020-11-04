@@ -20,6 +20,8 @@ sleepingTime = 400
 
 #ES: cut transcript into snippets based on the transcript's timestamps (must be set to True for other processes to run)
 snipTranscript = True
+#ES: cut video into snippets based on the transcript's timestamps (must be set to True for other processes to run)
+snipVideos = True
 
 #ES: upload video snippets
 uploadVideos = True
@@ -75,20 +77,32 @@ print "You may terminate the application at any point by pressing Ctrl+C (Cmd+C 
 time.sleep(1)
 print "\n"
 
-print "This tool:\n(1) snips your transcript (.txt) into text snippets based on its timestamps,\n(2) snips the associated video accordingly into video snippets,\n(3) uploads these video snippets to Youtube as private videos only visible to your account,\n(4) uploads the text snippets to Youtube as transcript files for these video snippets,\n(5) allows Youtube to sync the video and text snippets\n(6) downloads the text snippets as subtitle files (.vtt),\n(7) stitches these subtitle files together into a single subtitle file for your video.\n\nYou may switch these processes 'on' or 'off' depending on which steps you would like to run. If this is your first time running the tool, simply leave the following answers blank. For more advanced users or users who have already used this tool, please select which processes you would like to run: \n\n"
+print "This tool:\n- snips your transcript (.txt) into text snippets based on its timestamps,\n- snips the associated video accordingly into video snippets,\n- uploads these video snippets to Youtube as private videos only visible to your account,\n- uploads the text snippets to Youtube as transcript files for these video snippets,\n- allows Youtube to sync the video and text snippets\n- downloads the text snippets as subtitle files (.vtt),\n- stitches these subtitle files together into a single subtitle file for your video.\n\nYou may switch these processes 'on' or 'off' depending on which steps you would like to run. If this is your first time running the tool, simply leave the following answers blank. For more advanced users or users who have already used this tool, please select which processes you would like to run: \n\n"
 time.sleep(2)
 
-answer = raw_input("\n1/6	Will you be uploading video snippets to Youtube for syncing? (y/n) ")
+answer = raw_input("\n1/7	Will you be cutting your video into video snippets (y) ")
+answer = verify_y_n_none(answer)
+ 
+if answer == 'y':
+	snipVideos = True
+elif answer == 'n':
+	snipVideos = False
+elif answer == '':
+	snipVideos = True
+
+
+answer = raw_input("\n2/7	Will you be uploading video snippets to Youtube for syncing? (y) ")
 answer = verify_y_n_none(answer)
  
 if answer == 'y':
 	uploadVideos = True
+	snipVideos = True
 elif answer == 'n':
 	uploadVideos = False
 elif answer == '':
 	uploadVideos = True
 
-answer = raw_input("\n2/6	Will you be resuming video uploads from a previously-initiated process? (y/n) ")
+answer = raw_input("\n3/7	Will you be resuming video uploads from a previously-initiated process? (n) ")
 answer = verify_y_n_none(answer)
 
 if answer == 'y':
@@ -98,7 +112,7 @@ elif answer == 'n':
 elif answer == '':
 	resumeUploads = False
 	
-answer = raw_input("\n3/6	Will you be uploading text snippets for syncing with your video snippets? (y/n) ")
+answer = raw_input("\n4/7	Will you be uploading text snippets for syncing with your video snippets? (y) ")
 answer = verify_y_n_none(answer)
 			
 if answer == 'y':
@@ -108,7 +122,7 @@ elif answer == 'n':
 elif answer == '':
 	uploadTranscripts = True
 
-answer = raw_input("\n4/6	Will you be downloading the generated subtitle snippets from Youtube? (y/n) ")
+answer = raw_input("\n5/7	Will you be downloading the generated subtitle snippets from Youtube? (y) ")
 answer = verify_y_n_none(answer)
 
 if answer == 'y':
@@ -118,7 +132,7 @@ elif answer == 'n':
 elif answer == '':
 	downloadCaptions = True
 	
-answer = raw_input("\n5/6	Would you like your uploaded video snippets to be deleted from Youtube once subtitles have been successfully generated? (y/n) ")
+answer = raw_input("\n6/7	Would you like your uploaded video snippets to be deleted from Youtube once subtitles have been successfully generated? (n) ")
 answer = verify_y_n_none(answer)
 
 if answer == 'y':
@@ -128,7 +142,7 @@ elif answer == 'n':
 elif answer == '':
 	deleteVideos = False
 
-answer = raw_input("\n6/6	Will you be combining the downloaded subtitle snippets into a single subtitle file for your video? (y/n) ")
+answer = raw_input("\n7/7	Will you be combining the downloaded subtitle snippets into a single subtitle file for your video? (y) ")
 answer = verify_y_n_none(answer)
 
 if answer == 'y':
@@ -139,7 +153,7 @@ elif answer == '':
 	combineSubtitles = True
 
 if combineSubtitles == True:
-	answer = raw_input("\n6.1	Would you like to reorganize subtitles according to punctuation? (Experimental; can lead to short, choppy, fast subtitles that are hard to read) (y/n) ")
+	answer = raw_input("\n7.1	Would you like to reorganize subtitles according to punctuation? (Experimental; can lead to short, choppy, fast subtitles that are hard to read) (n) ")
 	answer = verify_y_n_none(answer)
 
 	if answer == 'y':
@@ -150,7 +164,7 @@ if combineSubtitles == True:
 		resampleSubtitles = False
 	
 	if resampleSubtitles == True:
-		answer = raw_input("\n6.1.1	Would you like to reorganize subtitles to prioritize keeping full sentences intact? (Experimental; this feature is not recommended since subtitle units tend to become excessively long) (y/n) ")
+		answer = raw_input("\n7.1.1	Would you like to reorganize subtitles to prioritize keeping full sentences intact? (Experimental; this feature is not recommended since subtitle units tend to become excessively long) (n) ")
 		answer = verify_y_n_none(answer)
 
 		if answer == 'y':
@@ -160,7 +174,7 @@ if combineSubtitles == True:
 		elif answer == '':
 			fullSentenceSubtitles = False
 			
-		answer = raw_input("\n6.1.2	Would you like to reorganize subtitles to remove lone words? (Experimental) (y/n) ")
+		answer = raw_input("\n7.1.2	Would you like to reorganize subtitles to remove lone words? (Experimental) (n) ")
 		answer = verify_y_n_none(answer)
 
 		if answer == 'y':
@@ -170,7 +184,7 @@ if combineSubtitles == True:
 		elif answer == '':
 			removeLoneWords = False
 		
-	answer = raw_input("\n6.2	Would you like to reorganize subtitles according to the presence of place names? (Experimental) (y/n) ")
+	answer = raw_input("\n7.2	Would you like to reorganize subtitles according to the presence of place names? (Experimental) (n) ")
 	answer = verify_y_n_none(answer)
 
 	if answer == 'y':
@@ -547,7 +561,7 @@ if snipTranscript == True:
 			#print t.replace('[','').replace(']','').replace(':','').replace('.','').replace('\n','').isdigit()
 			#print "c: " + str(c)
 			
-			with open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w') as thefile:
+			with open(folderName + "/" + fileName + "_" + str(c) + "_2.txt", 'w') as thefile:
 			#thefile = open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w')
 				try:
 					#ES: write the previous position of c in texts (a chunk of text prior to timestamp) to thefile
@@ -655,12 +669,32 @@ if resumeUploads == True:
 wait = False
 
 def yes_or_no(question):
-    while "the answer is invalid":
-        reply = str(raw_input(question+' (y/n): ')).lower().strip()
-        if reply[0] == 'y':
-            return True
-        if reply[0] == 'n':
-            exit()
+	while "the answer is invalid":
+		reply = str(raw_input(question+' (y/n): ')).lower().strip()
+		if reply[0] == 'y':
+			return True
+		if reply[0] == '':
+			return True
+		if reply[0] == 'n':
+			exit()
+
+if uploadVideos == False and snipVideos == True:
+	#ES: the following is called when videos are being uploaded (uploadVideos = True) to warn the user as to how many videos will be uploaded.
+	question = "\nThere were " + str(len(splits)) + " timestamps detected in " + fileName + ". " + str(len(splits)) + " video snippets will created. Continue?"
+	print "\nIf all input was correct, the program will begin snipping"
+	yes_or_no(question)
+	print "\n1. Slicing into " + str(len(splits)) + " parts"
+	time.sleep(1)
+	for s in splits:
+		c += 1
+		if c > len(videoids):
+			ffmpeg_extract_subclip(folderName + "/" + originalVideo, s[0], s[1], targetname=folderName + "/" + fileName + "_" + str(c) +"_2.m4a")
+
+			media_file = folderName + '/' + fileName + "_" + str(c) + "_2.m4a"
+			if not os.path.exists(media_file):
+				exit('Please specify a valid file location.')
+	print "\nSnipping completed. No further options were selected. Exiting..."
+	exit()
 
 #ES: UPLOADS THE VIDEOS
 if uploadVideos == True:
