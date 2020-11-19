@@ -561,7 +561,7 @@ if snipTranscript == True:
 			#print t.replace('[','').replace(']','').replace(':','').replace('.','').replace('\n','').isdigit()
 			#print "c: " + str(c)
 			
-			with open(folderName + "/" + fileName + "_" + str(c) + "_2.txt", 'w') as thefile:
+			with open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w') as thefile:
 			#thefile = open(folderName + "/" + fileName + "_" + str(c) + ".txt", 'w')
 				try:
 					#ES: write the previous position of c in texts (a chunk of text prior to timestamp) to thefile
@@ -688,9 +688,9 @@ if uploadVideos == False and snipVideos == True:
 	for s in splits:
 		c += 1
 		if c > len(videoids):
-			ffmpeg_extract_subclip(folderName + "/" + originalVideo, s[0], s[1], targetname=folderName + "/" + fileName + "_" + str(c) +"_2.m4a")
+			ffmpeg_extract_subclip(folderName + "/" + originalVideo, s[0], s[1], targetname=folderName + "/" + fileName + "_" + str(c) +".mp4")
 
-			media_file = folderName + '/' + fileName + "_" + str(c) + "_2.m4a"
+			media_file = folderName + '/' + fileName + "_" + str(c) + ".mp4"
 			if not os.path.exists(media_file):
 				exit('Please specify a valid file location.')
 	print "\nSnipping completed. No further options were selected. Exiting..."
