@@ -206,7 +206,7 @@ except Exception as e:
     exit()
 print "\n"
 
-if uploadTranscripts == True or resumeUploads == True or downloadCaptions == True or deleteVideos == True:
+if snipVideos == True or uploadTranscripts == True or resumeUploads == True or downloadCaptions == True or deleteVideos == True:
     combine_only = False
     fileName = raw_input("Enter the file name of your transcript (excluding the \".txt\" extention): ")
 
@@ -256,9 +256,10 @@ while True:
     language = raw_input("Enter the language code of your video and transcript or the intended language code of your subtitles (e.g. en, fr, es, etc.):\n(You can refer to the second column in http://www.loc.gov/standards/iso639-2/php/code_list.php for the appropriate two-letter 'ISO 639-1' language code.)\n")
     if language != '':
         verifyLanguage = raw_input("\nYou have entered '" + language + "' as the language code for your transcript and video files. Youtube will use this code for processing your files. Continue? (y/n) ")
-        if verifyLanguage.lower() == 'y':
+        if verifyLanguage.lower() == '' or 'y':
             break
 
+#if combineSubtitles == True:
 print "\n\n"
 print "\n6.3    If your transcript has speaker names (e.g. the interviewer or interviewee's names) that precede their discourse (e.g. \"Emmanuel: Hi, I'd like to ask you a few questions...\"), please input them. If this does not apply to your transcript, simply leave the following two answers blank by pressing the 'Enter' key."
 time.sleep(1)
@@ -420,8 +421,9 @@ def resumable_upload(request, resource, method):
             time.sleep(sleep_seconds)
     return response['id']
 
-args = argparser.parse_args()
-service = get_authenticated_service(args)
+if uploadTranscripts == True or resumeUploads == True or downloadCaptions == True or deleteVideos == True:
+    args = argparser.parse_args()
+    service = get_authenticated_service(args)
 
 def print_results(results):
     print(results)

@@ -18,9 +18,9 @@ echo.
 python -m pip install --upgrade pip
 
 Rem install virtualenv (a package that will allow the creation of an isolated python 2 virtual environment)
-pip install virtualenv
+python -m pip install virtualenv
 
-virtualenv -p python files
+python -m virtualenv -p python files
 
 Rem move the the required files your new virtual environment folder
 move main.py files/main.py
@@ -33,7 +33,7 @@ echo.
 echo Activating virtual environment entitled 'files' and installing required python modules...
 echo.
 call "Scripts\activate.bat"
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 echo.
 echo Before proceeding, make sure to place a folder containing your video and transcript inside the 'files' subfolder that was just created.
 pause
