@@ -38,7 +38,7 @@ Setting up your video and transcript files
 
 Once you have succesfully installed the program:
 - Create a new folder inside the subfolder entitled **/files** and place your video and transcript files inside this folder (your video can be of any file format).
-- Your transcript must be in *.txt* format (UTF-8 encoding is preferred).
+- Your transcript must be in *.txt* format with UTF-8 encoding.
 - Your transcript will require accurate timestamps (roughly 10-minute intervals between timestamps are recommended for optimal processing by Youtube). Be sure to also add a final timestamp that demarcates the end of your video.
 	- The format of these timestamps must be the following: `[HH:MM:SS.00]` (microseconds are not required). Timestamps must also be separated from surrounding text by a blank line. Example:
 
